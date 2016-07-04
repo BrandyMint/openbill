@@ -1,2 +1,1 @@
-. ./tests/config.sh
-./scripts/create.sh
+. ./tests/config.sh && ./scripts/create.sh
