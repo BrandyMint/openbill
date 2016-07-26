@@ -23,8 +23,6 @@ CREATE                TABLE OPENBILL_ACCOUNTS (
   amount_currency     char(3) not null default 'USD',
   details             text,
   transactions_count  integer not null default 0,
-  last_transaction_id uuid,
-  last_transaction_at timestamp without time zone,
   meta                hstore not null default ''::hstore,
   created_at          timestamp without time zone default current_timestamp,
   updated_at          timestamp without time zone default current_timestamp,
@@ -69,4 +67,3 @@ CREATE TABLE OPENBILL_TRANSACTIONS (
 CREATE UNIQUE INDEX index_transactions_on_key ON OPENBILL_TRANSACTIONS USING btree (key);
 CREATE INDEX index_transactions_on_meta ON OPENBILL_TRANSACTIONS USING gin (meta);
 CREATE INDEX index_transactions_on_created_at ON OPENBILL_TRANSACTIONS USING btree (created_at);
-ALTER TABLE OPENBILL_ACCOUNTS ADD FOREIGN KEY(last_transaction_id) REFERENCES OPENBILL_TRANSACTIONS(id) ON DELETE RESTRICT ON UPDATE RESTRICT;

@@ -1,2 +1,4 @@
 * Check reverse transaction summ to be equal to original transaction amount
 * No double reverse
+* Disable_delete_account trigger change to permission
+* disable update account amount by permission
