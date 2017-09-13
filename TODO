@@ -1,5 +1,6 @@
+* Запретить удалять и изменять таблицы и поля через grant вместо транзакций.  Allow column-level privileges, column_privileges 
+  GRANT update (column_name) ON table_name TO user_name;
+* Disable_delete_account trigger change to permission
 * Check reverse transaction summ to be equal to original transaction amount
 * No double reverse
-* Disable_delete_account trigger change to permission
 * disable update account amount by permission
-* PENDING

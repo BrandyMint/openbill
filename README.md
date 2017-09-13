@@ -1,18 +1,18 @@
-# openbill core
+# Openbill Core
 
 [![Build Status](https://travis-ci.org/openbill-service/openbill-core.svg)](https://travis-ci.org/openbill-service/openbill-core)
 
-Open Source Billing core.
+Open Source Billing Core.
 
-Биллинг создан по принципу меньше фунционала, но больше надежности. 
+Биллинг создан по принципу "Меньше функций, больше надежности"
 
 # Установка
 
-> PGDATABASE=openbill_development ./scripts/create.sh
+> PGDATABASE=openbill_development ./test/create.sh
 
 # Надежность
 
-Чем обсуловлена неджность данного решения?
+Чем обусловлена неджность данного решения?
 
 1. Отсутвие прокладов в виде API для обработки данных. Нет лишних сервисов,
    которые могут упать или иметь потенциальные баги.

@@ -1,4 +1,4 @@
-CREATE OR REPLACE FUNCTION openbill_transaction_delete() RETURNS TRIGGER AS $process_transaction$
+CREATE OR REPLACE FUNCTION openbill_transaction_delete() RETURNS TRIGGER SECURITY DEFINER AS $process_transaction$
 BEGIN
   -- установить last_transaction_id, counts и _at
   UPDATE OPENBILL_ACCOUNTS SET amount_cents = amount_cents - OLD.amount_cents, transactions_count = transactions_count - 1 WHERE id = OLD.to_account_id;
