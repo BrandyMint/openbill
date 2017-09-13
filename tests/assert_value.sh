@@ -1,9 +1,9 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 query="$1"
 value="$2"
 
-echo -n "\tExecute '$query' is equal to '$value': "
+echo -n -e "\tExecute '$query' is equal to '$value': "
 RES=`echo "$query" | psql --no-align -t -q`
 
 if [ $? = 0 ]; then

@@ -5,7 +5,7 @@ echo "Можно обновлять детали"
 . ./tests/init.sh && \
 . ./tests/2accounts.sh && \
 
-./tests/assert_result.sh "delete from OPENBILL_ACCOUNTS" 'ERROR:  Cannot delete account' && \
+./tests/assert_result_include.sh "delete from OPENBILL_ACCOUNTS" 'Cannot delete account' && \
 
 # TODO: Пока эти тесты еще не проходят
 

@@ -3,7 +3,7 @@
 query="$1"
 value="$2"
 
-echo -n "\tExecute '$query' contains '$value': "
+echo -n -e "\tExecute '$query' contains '$value': "
 RES=`echo "$query" | psql --no-align -t 2>&1`
 
 if [ $? = 0 ]; then

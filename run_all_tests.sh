@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-./scripts/create.sh && ./tests/all.sh
+./tests/create.sh && ./tests/all.sh

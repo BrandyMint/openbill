@@ -15,4 +15,5 @@ dropdb --if-exists $PGDATABASE >> $LOGFILE && \
   createdb $PGDATABASE >> $LOGFILE && \
   psql -1 $PGDATABASE < ./sql/0_db.sql >> $LOGFILE && \
   cat ./sql/?_trigger*.sql | psql -1 $PGDATABASE >> $LOGFILE && \
-  cat ./sql/?_migration*.sql | psql -1 $PGDATABASE >> $LOGFILE
+  cat ./sql/?_migration*.sql | psql -1 $PGDATABASE >> $LOGFILE && \
+  echo "SET lc_messages TO 'en_US.UTF-8';" | psql -1 $PGDATABASE >> $LOGFILE
