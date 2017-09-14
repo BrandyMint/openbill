@@ -7,6 +7,8 @@ BEGIN
   UPDATE OPENBILL_ACCOUNTS SET amount_cents = amount_cents + OLD.amount_cents, transactions_count = transactions_count - 1 WHERE id = OLD.from_account_id;
   UPDATE OPENBILL_ACCOUNTS SET amount_cents = amount_cents - NEW.amount_cents, transactions_count = transactions_count + 1 WHERE id = NEW.from_account_id;
 
+  UPDATE OPENBILL_INVOICES SET paied_cents = paied_cents - OLD.amount_cents + NEW.amount_cents WHERE id = NEW.invoice_id;
+
   return NEW;
 END
 

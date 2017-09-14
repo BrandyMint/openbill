@@ -10,6 +10,18 @@ BEGIN
     RAISE EXCEPTION 'Account (to #%) has wrong currency', NEW.to_account_id;
   END IF;
 
+  IF NEW.invoice_id IS NOT NULL THEN
+    PERFORM * FROM OPENBILL_INVOICES where id = NEW.invoice_id and amount_currency = NEW.amount_currency;
+    IF NOT FOUND THEN
+      RAISE EXCEPTION 'Invoice (to #%) has wrong currency', NEW.invoice_id;
+    END IF;
+
+    PERFORM * FROM OPENBILL_INVOICES where id = NEW.invoice_id and destination_account_id = NEW.to_account_id;
+    IF NOT FOUND THEN
+      RAISE EXCEPTION 'Invoice destination account (to #%) is wrong', NEW.invoice_id;
+    END IF;
+  END IF;
+
   return NEW;
 END
 
