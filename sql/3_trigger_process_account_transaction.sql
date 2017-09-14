@@ -30,5 +30,6 @@ END
 
 $process_transaction$ LANGUAGE plpgsql;
 
+DROP TRIGGER IF EXISTS process_account_transaction ON OPENBILL_TRANSACTIONS;
 CREATE TRIGGER process_account_transaction
   AFTER INSERT ON OPENBILL_TRANSACTIONS FOR EACH ROW EXECUTE PROCEDURE process_account_transaction();

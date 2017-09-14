@@ -7,5 +7,6 @@ BEGIN
 END
 $add_current_user_to_transaction$ LANGUAGE plpgsql;
 
+DROP TRIGGER IF EXISTS add_current_user_to_transaction ON OPENBILL_TRANSACTIONS;
 CREATE TRIGGER add_current_user_to_transaction
   BEFORE INSERT OR UPDATE ON OPENBILL_TRANSACTIONS FOR EACH ROW EXECUTE PROCEDURE add_current_user_to_transaction();

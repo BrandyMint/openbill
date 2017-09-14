@@ -24,5 +24,6 @@ END
 
 $disable_delete_account$ LANGUAGE plpgsql;
 
+DROP TRIGGER IF EXISTS disable_delete_account ON OPENBILL_ACCOUNTS;
 CREATE TRIGGER disable_delete_account
   BEFORE DELETE ON OPENBILL_ACCOUNTS FOR EACH ROW EXECUTE PROCEDURE disable_delete_account();

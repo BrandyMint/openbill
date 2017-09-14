@@ -11,5 +11,6 @@ END
 
 $process_transaction$ LANGUAGE plpgsql;
 
+DROP TRIGGER IF EXISTS openbill_transaction_delete ON OPENBILL_TRANSACTIONS;
 CREATE TRIGGER openbill_transaction_delete
   BEFORE DELETE ON OPENBILL_TRANSACTIONS FOR EACH ROW EXECUTE PROCEDURE openbill_transaction_delete();

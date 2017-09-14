@@ -14,5 +14,6 @@ END
 
 $process_transaction$ LANGUAGE plpgsql;
 
+DROP TRIGGER IF EXISTS openbill_transaction_update ON OPENBILL_TRANSACTIONS;
 CREATE TRIGGER openbill_transaction_update
   AFTER UPDATE ON OPENBILL_TRANSACTIONS FOR EACH ROW EXECUTE PROCEDURE openbill_transaction_update();
