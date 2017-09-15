@@ -8,7 +8,7 @@ CREATE TABLE openbill_invoices (
     destination_account_id uuid NOT NULL,
     amount_cents numeric DEFAULT 0 NOT NULL,
     amount_currency character(3) DEFAULT 'USD'::bpchar NOT NULL,
-    paied_cents numeric DEFAULT 0 NOT NULL,
+    paid_cents numeric DEFAULT 0 NOT NULL,
     created_at timestamp without time zone DEFAULT now(),
     updated_at timestamp without time zone DEFAULT now(),
     meta jsonb DEFAULT '{}'::json,

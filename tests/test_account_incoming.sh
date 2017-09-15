@@ -10,7 +10,7 @@ echo "insert into OPENBILL_ACCOUNTS  (id, category_id, key) values ($ACCOUNT3_UU
 
 ./tests/assert_result.sh "insert into OPENBILL_TRANSACTIONS (invoice_id, amount_cents, amount_currency, from_account_id, to_account_id, key, details) values ($INVOICE_UUID, 100, 'USD', $ACCOUNT2_UUID, $ACCOUNT1_UUID, 'gid://order3', 'test')" 'INSERT 0 1' && \
 
-./tests/assert_result.sh "select paied_cents from OPENBILL_INVOICES where id =  $INVOICE_UUID" '100' && \
+./tests/assert_result.sh "select paid_cents from OPENBILL_INVOICES where id =  $INVOICE_UUID" '100' && \
 
 ./tests/assert_result.sh "insert into OPENBILL_TRANSACTIONS ( amount_cents, amount_currency, from_account_id, to_account_id, key, details) values (100, 'USD', $ACCOUNT2_UUID, $ACCOUNT3_UUID, 'gid://order4', 'test')" 'INSERT 0 1' && \
 
