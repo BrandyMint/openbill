@@ -1,4 +1,6 @@
 language: c
+notifications:
+  email: false
 sudo: required
 addons:
   postgresql: "9.5"
