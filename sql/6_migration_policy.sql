@@ -39,4 +39,4 @@ $restrict_transaction$ LANGUAGE plpgsql;
 CREATE TRIGGER restrict_transaction
   AFTER INSERT ON OPENBILL_TRANSACTIONS FOR EACH ROW EXECUTE PROCEDURE restrict_transaction();
 
-INSERT INTO OPENBILL_POLICIES (name) VALUES ('Allow any transaction');
+INSERT INTO OPENBILL_POLICIES (name) VALUES ('Allow any transactions');
