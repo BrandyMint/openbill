@@ -34,20 +34,8 @@ CREATE UNIQUE INDEX index_accounts_on_key ON OPENBILL_ACCOUNTS USING btree (key)
 CREATE INDEX index_accounts_on_meta ON OPENBILL_ACCOUNTS USING gin (meta);
 CREATE INDEX index_accounts_on_created_at ON OPENBILL_ACCOUNTS USING btree (created_at);
 
-CREATE TABLE OPENBILL_OPERATIONS (
-  id              UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  created_at      timestamp without time zone default current_timestamp,
-  from_account_id uuid not null,
-  to_account_id   uuid not null,
-  owner_id        UUID,
-  key             character varying(256) not null,
-  details         text not null,
-  meta            hstore not null default ''::hstore
-);
-
 CREATE TABLE OPENBILL_TRANSACTIONS (
   id              UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  operation_id    UUID,
   owner_id        UUID,
   username        character varying(255) not null,
   date            date default current_date not null,
@@ -60,7 +48,6 @@ CREATE TABLE OPENBILL_TRANSACTIONS (
   details         text not null,
   meta            hstore not null default ''::hstore,
   foreign key (from_account_id) REFERENCES OPENBILL_ACCOUNTS (id) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  foreign key (operation_id) REFERENCES OPENBILL_OPERATIONS (id) ON DELETE RESTRICT ON UPDATE RESTRICT,
   foreign key (to_account_id) REFERENCES OPENBILL_ACCOUNTS (id)
 );
 
