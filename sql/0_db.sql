@@ -3,7 +3,6 @@ CREATE EXTENSION IF NOT EXISTS hstore WITH SCHEMA public;
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA public; 
 
 CREATE                TABLE OPENBILL_CATEGORIES (
-  owner_id            UUID,
   id                  UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   name                character varying(256) not null,
   parent_id           uuid,
