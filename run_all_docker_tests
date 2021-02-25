@@ -1,0 +1,2 @@
+docker exec -e PGUSER=postgres -e PGOPTIONS='--client-min-messages=warning' \
+  -it openbill-core_openbill_db_1 /home/openbill/run_all_tests.sh
