@@ -1,6 +1,6 @@
 CREATE OR REPLACE FUNCTION notify_transaction() RETURNS TRIGGER AS $notify_transaction$
 BEGIN
-  PERFORM pg_notify('openbill_transactions', CAST(NEW.id AS text));
+  PERFORM pg_notify('create_transaction', CAST(NEW.id AS text));
 
   return NEW;
 END
