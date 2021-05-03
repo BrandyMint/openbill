@@ -17,7 +17,7 @@ CREATE                TABLE OPENBILL_ACCOUNTS (
   owner_id            UUID,
   id                  UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   category_id         uuid not null,
-  key                 character varying(256) not null,
+  key                 character varying(256),
   amount_cents        numeric not null default 0,
   amount_currency     char(3) not null default 'USD',
   details             text,
@@ -29,7 +29,7 @@ CREATE                TABLE OPENBILL_ACCOUNTS (
 );
 
 CREATE UNIQUE INDEX index_accounts_on_id ON OPENBILL_ACCOUNTS USING btree (id);
-CREATE UNIQUE INDEX index_accounts_on_key ON OPENBILL_ACCOUNTS USING btree (key);
+CREATE UNIQUE INDEX index_accounts_on_key ON OPENBILL_ACCOUNTS USING btree (key) WHERE key is not null;
 CREATE INDEX index_accounts_on_meta ON OPENBILL_ACCOUNTS USING gin (meta);
 CREATE INDEX index_accounts_on_created_at ON OPENBILL_ACCOUNTS USING btree (created_at);
 
