@@ -5,3 +5,5 @@
 * Check reverse transaction summ to be equal to original transaction amount
 * No double reverse
 * disable update account amount by permission
+
+* Явно определить может ли пользоватеть удалять транзакции
