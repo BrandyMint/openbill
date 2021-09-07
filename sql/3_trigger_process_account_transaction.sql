@@ -20,7 +20,7 @@ BEGIN
   return NEW;
 END
 
-$process_transaction$ LANGUAGE plpgsql;
+$process_transaction$ LANGUAGE plpgsql SECURITY DEFINER;
 
 DROP TRIGGER IF EXISTS process_account_transaction ON OPENBILL_TRANSACTIONS;
 CREATE TRIGGER process_account_transaction
