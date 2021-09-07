@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 test -z "$PGDATABASE" && PGDATABASE='openbill_test'
-PGUSER=postgres
+export PGUSER=postgres
 
 TESTUSER=openbill-test
 
@@ -18,4 +18,5 @@ dropuser --if-exists $TESTUSER && createuser $TESTUSER && \
 dropdb --if-exists $PGDATABASE >> $LOGFILE &&  createdb $PGDATABASE >> $LOGFILE && \
   psql -1 $PGDATABASE < ./sql/0_*.sql >> $LOGFILE && \
   cat ./sql/?_trigger*.sql | psql -1 $PGDATABASE >> $LOGFILE && \
-  cat ./sql/?_migration*.sql | psql -1 $PGDATABASE >> $LOGFILE
+  cat ./sql/?_migration*.sql | psql -1 $PGDATABASE >> $LOGFILE && \
+  cat ./sql/99_permissions.sql | psql -1 $PGDATABASE >> $LOGFILE

@@ -6,8 +6,9 @@ fails=0
 green="\033[32m"
 red="\033[31m"
 reset="\033[0m"
+export PGUSER=openbill-test
 
-for test in ./tests/test*.sh 
+for test in ./tests/test*.sh
 do
   echo -e "\nRun test: $test"
   if $test && echo "TEST PASSED" && ./tests/assert_balance.sh && echo "BALANCE PASSED"; then
