@@ -1,6 +1,8 @@
 CREATE OR REPLACE FUNCTION OPENBILL_LOCKS_insert() RETURNS TRIGGER AS $process_transaction$
 DECLARE
  v_account OPENBILL_ACCOUNTS%rowtype;
+ v_lock_amount numeric;
+ v_unlock_amount numeric;
 BEGIN
   SELECT * FROM OPENBILL_ACCOUNTS WHERE id = NEW.account_id INTO v_account;
   -- У всех счетов и транзакции должна быть одинаковая валюта
@@ -19,8 +21,12 @@ BEGIN
   END IF;
 
   -- Нельзя разблокировать больше чем есть на счете
-  IF NEW.amount_cents < 0 AND  -NEW.amount_cents > v_account.locked_cents THEN
-    RAISE EXCEPTION 'It is impossible to unblock the amount more than is on the account %', NEW.to_account_id;
+  IF NEW.amount_cents < 0 THEN
+    SELECT amount_cents FROM OPENBILL_LOCKS WHERE id = NEW.lock_key INTO v_lock_amount;
+    SELECT SUM(amount_cents) FROM OPENBILL_LOCKS WHERE lock_key = NEW.lock_key INTO v_unlock_amount;
+    IF v_lock_amount + v_unlock_amount > NEW.amount_cents AND v_account.locked_cents > NEW.amount_cents THEN
+      RAISE EXCEPTION 'It is impossible to unblock the amount more than is on the account %', NEW.to_account_id;
+    END IF;
   END IF;
 
 
