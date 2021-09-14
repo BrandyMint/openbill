@@ -10,7 +10,7 @@ CREATE TABLE OPENBILL_LOCKS (
   key             character varying(256) UNIQUE not null,
   details         text not null,
   meta            hstore not null default ''::hstore,
-  lock_key   character varying(256) not null,
+  lock_key   character varying(256),
   foreign key (lock_key) REFERENCES OPENBILL_LOCKS (key) ON DELETE RESTRICT ON UPDATE RESTRICT,
   foreign key (account_id) REFERENCES OPENBILL_ACCOUNTS (id) ON DELETE RESTRICT ON UPDATE RESTRICT
 );

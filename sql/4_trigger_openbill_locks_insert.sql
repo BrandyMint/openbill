@@ -12,7 +12,7 @@ BEGIN
   END IF;
   -- Нельзя заблокировать больше чем есть на счете
   IF NEW.amount_cents > 0 AND NEW.amount_cents > v_account.amount_cents THEN
-    RAISE EXCEPTION 'It is impossible to block the amount more than is on the account %', NEW.to_account_id;
+    RAISE EXCEPTION 'It is impossible to block the amount more than is on the account %', NEW.account_id;
   END IF;
 
   -- Некорректный запрос на разблокировку
@@ -25,12 +25,12 @@ BEGIN
     SELECT amount_cents FROM OPENBILL_LOCKS WHERE id = NEW.lock_key INTO v_lock_amount;
     SELECT SUM(amount_cents) FROM OPENBILL_LOCKS WHERE lock_key = NEW.lock_key INTO v_unlock_amount;
     IF v_lock_amount + v_unlock_amount > NEW.amount_cents AND v_account.locked_cents > NEW.amount_cents THEN
-      RAISE EXCEPTION 'It is impossible to unblock the amount more than is on the account %', NEW.to_account_id;
+      RAISE EXCEPTION 'It is impossible to unblock the amount more than is on the account %', NEW.account_id;
     END IF;
   END IF;
 
 
-  UPDATE OPENBILL_ACCOUNTS SET amount_cents = amount_cents - NEW.amount_cents, locked_cents = locked_cents + NEW.amount_cents WHERE id = NEW.from_account_id;
+  UPDATE OPENBILL_ACCOUNTS SET amount_cents = amount_cents - NEW.amount_cents, locked_cents = locked_cents + NEW.amount_cents WHERE id = NEW.account_id;
 
   return NEW;
 END
@@ -39,4 +39,4 @@ $process_transaction$ LANGUAGE plpgsql SECURITY DEFINER;
 
 DROP TRIGGER IF EXISTS OPENBILL_LOCKS_insert ON OPENBILL_LOCKS;
 CREATE TRIGGER OPENBILL_LOCKS_insert
-  AFTER INSERT ON OPENBILL_LOCKS FOR EACH ROW EXECUTE PROCEDURE process_account_transaction();
+  AFTER INSERT ON OPENBILL_LOCKS FOR EACH ROW EXECUTE PROCEDURE OPENBILL_LOCKS_insert();
