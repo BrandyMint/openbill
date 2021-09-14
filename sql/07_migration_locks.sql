@@ -17,3 +17,5 @@ CREATE TABLE OPENBILL_LOCKS (
 
 CREATE UNIQUE INDEX index_locks_on_key ON OPENBILL_LOCKS USING btree (key);
 CREATE INDEX index_locks_on_meta ON OPENBILL_LOCKS USING gin (meta);
+
+ALTER TABLE openbill_accounts ADD COLUMN locked_cents numeric not null DEFAULT 0;
