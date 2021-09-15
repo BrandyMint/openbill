@@ -9,7 +9,7 @@ CREATE TABLE OPENBILL_LOCKS (
   amount_currency character varying(8) not null,
   key             character varying(256) UNIQUE not null,
   details         text not null,
-  meta            hstore not null default ''::hstore,
+  meta            jsonb not null default '{}'::jsonb,
   lock_key   character varying(256),
   foreign key (lock_key) REFERENCES OPENBILL_LOCKS (key) ON DELETE RESTRICT ON UPDATE RESTRICT,
   foreign key (account_id) REFERENCES OPENBILL_ACCOUNTS (id) ON DELETE RESTRICT ON UPDATE RESTRICT
