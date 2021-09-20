@@ -12,7 +12,8 @@ CREATE TABLE OPENBILL_LOCKS (
   meta            jsonb not null default '{}'::jsonb,
   lock_key   character varying(256),
   foreign key (lock_key) REFERENCES OPENBILL_LOCKS (key) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  foreign key (account_id) REFERENCES OPENBILL_ACCOUNTS (id) ON DELETE RESTRICT ON UPDATE RESTRICT
+  foreign key (account_id) REFERENCES OPENBILL_ACCOUNTS (id) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CHECK ((amount_cents < 0 AND lock_key is NOT NULL) or (amount_cents >0 AND lock_key is NULL))
 );
 
 CREATE UNIQUE INDEX index_locks_on_key ON OPENBILL_LOCKS USING btree (key);

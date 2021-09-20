@@ -16,11 +16,6 @@ BEGIN
     RAISE EXCEPTION 'It is impossible to block the amount more than is on the account';
   END IF;
 
-  -- Некорректный запрос на разблокировку
-  IF NEW.amount_cents < 0 AND  NEW.lock_key IS NULL THEN
-    RAISE EXCEPTION 'Invalid unlock request';
-  END IF;
-
   -- Нельзя разблокировать больше чем есть на счете
   IF NEW.amount_cents < 0 THEN
     SELECT amount_cents FROM OPENBILL_LOCKS WHERE key = NEW.lock_key INTO v_lock_amount;
