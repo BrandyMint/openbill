@@ -13,7 +13,7 @@ BEGIN
   END IF;
 
   IF EXISTS (SELECT 1 FROM OPENBILL_ACCOUNTS where id = NEW.from_account_id and outcome_disabled_at IS NOT NULL) THEN
-    RAISE EXCEPTION 'Account (to #%) is hold', NEW.to_account_id;
+    RAISE EXCEPTION 'Account (from #%) is hold', NEW.to_account_id;
   END IF;
 
   UPDATE OPENBILL_ACCOUNTS SET amount_cents = amount_cents - NEW.amount_cents, transactions_count = transactions_count + 1 WHERE id = NEW.from_account_id;
