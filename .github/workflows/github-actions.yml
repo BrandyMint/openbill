@@ -2,6 +2,8 @@ name: Test openbill-core
 on: [push]
 jobs:
   test:
+    env:
+      PG_PASSWORD: postgres
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -23,4 +25,4 @@ jobs:
     - name:
       uses: actions/checkout@v2
     - name: Make tests
-      run: export PG_PASSWORD=postgres bash run_all_tests.sh
+      run: ./run_all_tests.sh
