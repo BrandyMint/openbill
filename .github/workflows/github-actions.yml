@@ -1,0 +1,29 @@
+name: Test openbill-core
+on: [push]
+jobs:
+  test:
+    env:
+      PGPASSWORD: postgres
+      PGHOST: 127.0.0.1
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+    services:
+      postgres:
+        image: postgres:13
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        env:
+          # required
+          POSTGRES_PASSWORD: postgres
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Make tests
+      run: ./run_all_tests.sh
