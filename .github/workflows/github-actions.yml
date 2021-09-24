@@ -23,7 +23,7 @@ jobs:
           POSTGRES_PASSWORD: postgres
 
     steps:
-    - name:
+    - name: Checkout
       uses: actions/checkout@v2
     - name: Make tests
       run: ./run_all_tests.sh
