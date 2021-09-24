@@ -3,7 +3,8 @@ on: [push]
 jobs:
   test:
     env:
-      PG_PASSWORD: postgres
+      PGPASSWORD: postgres
+      PGHOST: 127.0.0.1
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
