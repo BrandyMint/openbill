@@ -5,10 +5,6 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      matrix:
-        ruby-version: ['2.7.4']
-        ci_node_total: [2]h
-        ci_node_index: [0, 1]
     services:
       postgres:
         image: postgres:13
