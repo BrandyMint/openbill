@@ -15,5 +15,5 @@ if [ $? = 0 ]; then
   fi
 else
   echo "Error executing $query"
-  exit $?
+  exit 1
 fi
