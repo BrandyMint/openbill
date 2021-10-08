@@ -22,7 +22,7 @@ holdid=`cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1`
 
 if ./tests/assert_result_include.sh "insert into OPENBILL_TRANSACTIONS (amount_cents, amount_currency, from_account_id, to_account_id, key, details) values ($sum1, 'USD', '$1', '$2', md5(random()::text), 'pid: #$$, transaction01')" 'INSERT 0 1' && \
     ./tests/assert_result_include.sh "INSERT INTO OPENBILL_LOCKS (username, account_id, amount_cents, amount_currency, key, details) VALUES (user, '$2', $sum1/2, 'USD', '$holdid', 'pid: #$$. hold')" 'INSERT 0 1' && \
-    ./tests/assert_result_include.sh "insert into OPENBILL_TRANSACTIONS (amount_cents, amount_currency, from_account_id, to_account_id, key, details) values ($sum1/2, 'USD', '$2', '$1', md5(random()::text), 'pid: #$$, transaction02')" 'INSERT 0 1' && \
+    ./tests/assert_result_include.sh "insert into OPENBILL_TRANSACTIONS (amount_cents, amount_currency, from_account_id, to_account_id, key, details) values ($sum1 - $sum1/2, 'USD', '$2', '$1', md5(random()::text), 'pid: #$$, transaction02')" 'INSERT 0 1' && \
     ./tests/assert_result_include.sh "INSERT INTO OPENBILL_LOCKS (username, account_id, amount_cents, amount_currency, key, lock_key, details) VALUES (user, '$2', -$sum1/2, 'USD', md5(random()::text), '$holdid', 'pid: #$$. unhold')" 'INSERT 0 1' && \
     ./tests/assert_result_include.sh "insert into OPENBILL_TRANSACTIONS (amount_cents, amount_currency, from_account_id, to_account_id, key, details) values ($sum1/2, 'USD', '$2', '$1', md5(random()::text), 'pid: #$$, transaction03')" 'INSERT 0 1' && \
     echo "TEST PASSED" && ./tests/assert_balance.sh && echo "BALANCE PASSED"; then
