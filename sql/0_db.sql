@@ -41,7 +41,7 @@ CREATE TABLE OPENBILL_TRANSACTIONS (
   from_account_id uuid not null,
   to_account_id   uuid not null CONSTRAINT different_accounts CHECK (to_account_id<>from_account_id),
   amount_cents    numeric not null CONSTRAINT positive CHECK (amount_cents>0),
-  amount_currency character varying(8) not null,
+  amount_currency character varying(8) not null default 'USD',
   key             character varying(256) not null,
   details         text not null,
   meta            jsonb not null default '{}'::jsonb,
