@@ -2,7 +2,7 @@
 
 require 'benchmark'
 
-THREADS_COUNT = 1_000
+THREADS_COUNT = 1_00
 
 SCRIPT = './tests/assert_value.sh'
 
