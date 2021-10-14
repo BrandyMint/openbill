@@ -1,7 +1,7 @@
 name: Test openbill-core
 on: [push]
 jobs:
-  test:
+  test-functional:
     env:
       PGPASSWORD: postgres
       PGHOST: 127.0.0.1
