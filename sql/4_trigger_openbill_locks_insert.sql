@@ -1,8 +1,8 @@
 CREATE OR REPLACE FUNCTION OPENBILL_LOCKS_insert() RETURNS TRIGGER AS $process_transaction$
 DECLARE
  v_account OPENBILL_ACCOUNTS%rowtype;
- v_lock_amount numeric;
- v_unlock_amount numeric;
+ v_lock_amount numeric(36,18);
+ v_unlock_amount numeric(36,18);
 BEGIN
   NEW.username := current_user;
   SELECT * FROM OPENBILL_ACCOUNTS WHERE id = NEW.account_id INTO v_account;
@@ -12,23 +12,23 @@ BEGIN
     RAISE EXCEPTION 'Account (from #%) has wrong currency', NEW.account_id;
   END IF;
   -- Нельзя заблокировать больше чем есть на счете
-  IF NEW.amount_cents > 0 AND NEW.amount_cents > v_account.amount_cents THEN
+  IF NEW.amount_value > 0 AND NEW.amount_value > v_account.amount_value THEN
     RAISE EXCEPTION 'It is impossible to block the amount more than is on the account';
   END IF;
 
   -- Нельзя разблокировать больше чем есть на счете
-  IF NEW.amount_cents < 0 THEN
-    SELECT amount_cents FROM OPENBILL_LOCKS WHERE key = NEW.lock_key INTO v_lock_amount;
-    SELECT SUM(amount_cents) FROM OPENBILL_LOCKS WHERE lock_key = NEW.lock_key INTO v_unlock_amount;
+  IF NEW.amount_value < 0 THEN
+    SELECT amount_value FROM OPENBILL_LOCKS WHERE key = NEW.lock_key INTO v_lock_amount;
+    SELECT SUM(amount_value) FROM OPENBILL_LOCKS WHERE lock_key = NEW.lock_key INTO v_unlock_amount;
     v_lock_amount = v_lock_amount + v_unlock_amount;
-    RAISE NOTICE 'v_lock_amount: %, v_account.locked_cents: %, -NEW.amount_cents: %', v_lock_amount, v_account.locked_cents, -NEW.amount_cents;
-    IF v_lock_amount < -NEW.amount_cents OR v_account.locked_cents < -NEW.amount_cents THEN
+    RAISE NOTICE 'v_lock_amount: %, v_account.locked_value: %, -NEW.amount_value: %', v_lock_amount, v_account.locked_value, -NEW.amount_value;
+    IF v_lock_amount < -NEW.amount_value OR v_account.locked_value < -NEW.amount_value THEN
       RAISE EXCEPTION 'It is impossible to unblock the amount more than is on the account';
     END IF;
   END IF;
 
 
-  UPDATE OPENBILL_ACCOUNTS SET amount_cents = amount_cents - NEW.amount_cents, locked_cents = locked_cents + NEW.amount_cents WHERE id = NEW.account_id;
+  UPDATE OPENBILL_ACCOUNTS SET amount_value = amount_value - NEW.amount_value, locked_value = locked_value + NEW.amount_value WHERE id = NEW.account_id;
 
   return NEW;
 END
