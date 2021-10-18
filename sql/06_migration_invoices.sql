@@ -7,7 +7,7 @@ CREATE TABLE openbill_invoices (
     title character varying(256) NOT NULL,
     destination_account_id uuid NOT NULL,
     amount_value numeric(36,18) DEFAULT 0 NOT NULL,
-    amount_currency character(3) DEFAULT 'USD'::bpchar NOT NULL,
+    amount_currency varchar(8) DEFAULT 'USD'::bpchar NOT NULL,
     paid_value numeric(36,18) DEFAULT 0 NOT NULL,
     created_at timestamp without time zone DEFAULT now(),
     updated_at timestamp without time zone DEFAULT now(),

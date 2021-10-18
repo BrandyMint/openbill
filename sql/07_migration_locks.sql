@@ -6,7 +6,7 @@ CREATE TABLE OPENBILL_LOCKS (
   created_at      timestamp without time zone default current_timestamp,
   account_id uuid not null,
   amount_value    numeric(36,18) not null,
-  amount_currency character varying(8) not null,
+  amount_currency character varying(8) not null default 'USD',
   key             character varying(256) UNIQUE not null,
   details         text not null,
   meta            jsonb not null default '{}'::jsonb,
