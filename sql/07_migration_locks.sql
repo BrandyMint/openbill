@@ -11,7 +11,7 @@ CREATE TABLE OPENBILL_HOLDS (
   details         text not null,
   meta            jsonb not null default '{}'::jsonb,
   lock_key   character varying(256),
-  foreign key (lock_key) REFERENCES OPENBILL_HOLDS (key) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  foreign key (hold_key) REFERENCES OPENBILL_HOLDS (key) ON DELETE RESTRICT ON UPDATE RESTRICT,
   foreign key (account_id) REFERENCES OPENBILL_ACCOUNTS (id) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CHECK ((amount_cents < 0 AND lock_key is NOT NULL) or (amount_cents >0 AND lock_key is NULL))
 );
