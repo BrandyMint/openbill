@@ -45,7 +45,7 @@
 
 ## Финансовые
 
-* Таблица `OPENBILL_ACCOUNTS` - счёт. Имеет уникальный uuid-идентификатор. Несёт информацию о состоянии счёта (балансе), валюте (поля `amount_cents` и `amount_currency`).
+* Таблица `OPENBILL_ACCOUNTS` - счёт. Имеет уникальный uuid-идентификатор. Несёт информацию о состоянии счёта (балансе), валюте (поля `amount_value` и `amount_currency`).
 * Таблица `OPENBILL_TRANSACTIONS` - операция перемещения средств между счетами. Имеет уникальный идентификатор, идентификаторы входящего и исходящего счёта, сумму транзакции, описание.
 
 ## Дополнительные
@@ -137,8 +137,8 @@ openbill=# insert into openbill_accounts (key, category_id, details) values ('cl
 В итоге имеем счета:
 
 ```shell
-openbill=# select id, key, amount_cents, amount_currency from openbill_accounts;
-                  id                  |      key      | amount_cents | amount_currency
+openbill=# select id, key, amount_value, amount_currency from openbill_accounts;
+                  id                  |      key      | amount_value | amount_currency
 --------------------------------------+---------------+--------------+-----------------
  b2c8e271-902a-4c7a-ae76-03f0c9674b37 | vasya         |            0 | USD
  8764affd-5df5-4b6d-a0b4-821bd8770aed | petya         |            0 | USD
@@ -148,7 +148,7 @@ openbill=# select id, key, amount_cents, amount_currency from openbill_accounts;
 Проверяем общий баланс:
 
 ```shell
-openbill=# select amount_currency, sum(amount_cents) from openbill_accounts group by amount_currency;
+openbill=# select amount_currency, sum(amount_value) from openbill_accounts group by amount_currency;
  amount_currency | sum
 -----------------+-----
  USD             |   0
@@ -161,7 +161,7 @@ openbill=# select amount_currency, sum(amount_cents) from openbill_accounts grou
 регистрируем операцию:
 
 ```shell
-openbill=# insert into openbill_transactions (key, from_account_id, to_account_id, amount_cents, amount_currency, details) 
+openbill=# insert into openbill_transactions (key, from_account_id, to_account_id, amount_value, amount_currency, details) 
            values ('12345', '84d0fbce-1394-4c8b-8318-24003b2be0bc', 'b2c8e271-902a-4c7a-ae76-03f0c9674b37', 500, 'USD', 'Поступление через CloudPayments 500$, транзакция N12345');
 ```
 
@@ -171,8 +171,8 @@ openbill=# insert into openbill_transactions (key, from_account_id, to_account_i
 Смотрим состояние счетов:
 
 ```shell
-openbill=# select id, key, amount_cents, amount_currency from openbill_accounts;
-                  id                  |      key      | amount_cents | amount_currency
+openbill=# select id, key, amount_value, amount_currency from openbill_accounts;
+                  id                  |      key      | amount_value | amount_currency
 --------------------------------------+---------------+--------------+-----------------
  8764affd-5df5-4b6d-a0b4-821bd8770aed | petya         |            0 | USD
  84d0fbce-1394-4c8b-8318-24003b2be0bc | cloudpayments |         -500 | USD
@@ -182,7 +182,7 @@ openbill=# select id, key, amount_cents, amount_currency from openbill_accounts;
 Общий баланс:
 
 ```shell
-openbill=# select amount_currency, sum(amount_cents) from openbill_accounts group by amount_currency;
+openbill=# select amount_currency, sum(amount_value) from openbill_accounts group by amount_currency;
  amount_currency | sum
 -----------------+-----
  USD             |   0
