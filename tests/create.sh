@@ -16,7 +16,5 @@ echo $message > $LOGFILE
 
 dropuser --if-exists $TESTUSER && psql -c "CREATE USER \"$TESTUSER\" WITH PASSWORD 'postgres';" && \
 dropdb --if-exists $PGDATABASE >> $LOGFILE &&  createdb $PGDATABASE >> $LOGFILE && \
-  psql -1 $PGDATABASE < ./sql/0_*.sql >> $LOGFILE && \
-  cat ./sql/??_migration*.sql | psql -1 $PGDATABASE >> $LOGFILE && \
-  cat ./sql/?_trigger*.sql | psql -1 $PGDATABASE >> $LOGFILE && \
-  cat ./sql/99_permissions.sql | psql -1 $PGDATABASE >> $LOGFILE
+  cat ./migrations/V???_*.sql | psql -1 $PGDATABASE >> $LOGFILE && \
+  cat ./migrations/R???_*.sql | psql -1 $PGDATABASE >> $LOGFILE
