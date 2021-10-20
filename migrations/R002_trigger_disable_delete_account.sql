@@ -7,7 +7,7 @@ BEGIN
   IF current_query() like 'insert into OPENBILL_TRANSACTIONS%' THEN
     RETURN NEW;
   ELSE
-    RAISE EXCEPTION 'Cannot directly update amount_cents and timestamps of account with query (#%)', current_query();
+    RAISE EXCEPTION 'Cannot directly update amount_value and timestamps of account with query (#%)', current_query();
   END IF;
 END
 

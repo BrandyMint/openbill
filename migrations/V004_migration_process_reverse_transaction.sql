@@ -2,7 +2,7 @@ CREATE OR REPLACE FUNCTION process_reverse_transaction() RETURNS TRIGGER AS $pro
 BEGIN
   IF NEW.reverse_transaction_id IS NOT NULL THEN
     PERFORM * FROM openbill_transactions
-      WHERE amount_cents = NEW.amount_cents 
+      WHERE amount_value = NEW.amount_value 
         AND amount_currency = NEW.amount_currency 
         AND from_account_id = NEW.to_account_id
         AND to_account_id = NEW.from_account_id
