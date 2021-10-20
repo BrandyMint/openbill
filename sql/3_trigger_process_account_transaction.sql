@@ -14,8 +14,8 @@ BEGIN
     RAISE EXCEPTION 'Account (to #%) has wrong currency', NEW.to_account_id;
   END IF;
 
-  IF v_account_from.outcome_disabled_at IS NOT NULL THEN
-    RAISE EXCEPTION 'Account (from #%) is hold from %', NEW.to_account_id, v_account_from.outcome_disabled_at;
+  IF v_account_from.locked_at_at IS NOT NULL THEN
+    RAISE EXCEPTION 'Account (from #%) is hold from %', NEW.to_account_id, v_account_from.locked_at_at;
   END IF;
 
   UPDATE OPENBILL_ACCOUNTS SET amount_value = amount_value - NEW.amount_value, transactions_count = transactions_count + 1 WHERE id = NEW.from_account_id;
