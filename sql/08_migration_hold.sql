@@ -1,1 +1,1 @@
-ALTER TABLE openbill_accounts ADD COLUMN locked_at_at timestamp without time zone null;
+ALTER TABLE openbill_accounts ADD COLUMN locked_at timestamp without time zone null;

@@ -19,4 +19,4 @@ CREATE TABLE OPENBILL_HOLDS (
 CREATE UNIQUE INDEX index_holds_on_key ON OPENBILL_HOLDS USING btree (key);
 CREATE INDEX index_holds_on_meta ON OPENBILL_HOLDS USING gin (meta);
 
-ALTER TABLE openbill_accounts ADD COLUMN locked_value numeric(36,18) not null DEFAULT 0;
+ALTER TABLE openbill_accounts ADD COLUMN hold_value numeric(36,18) not null DEFAULT 0;
