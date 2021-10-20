@@ -1,4 +1,4 @@
-CREATE OR REPLACE FUNCTION OPENBILL_LOCKS_insert() RETURNS TRIGGER AS $process_transaction$
+CREATE OR REPLACE FUNCTION OPENBILL_HOLDS_insert() RETURNS TRIGGER AS $process_transaction$
 DECLARE
  v_account OPENBILL_ACCOUNTS%rowtype;
  v_lock_amount numeric(36,18);
@@ -18,10 +18,9 @@ BEGIN
 
   -- Нельзя разблокировать больше чем есть на счете
   IF NEW.amount_value < 0 THEN
-    SELECT amount_value FROM OPENBILL_LOCKS WHERE key = NEW.lock_key INTO v_lock_amount;
-    SELECT SUM(amount_value) FROM OPENBILL_LOCKS WHERE lock_key = NEW.lock_key INTO v_unlock_amount;
+    SELECT amount_value FROM OPENBILL_HOLDS WHERE key = NEW.hold_key INTO v_lock_amount;
+    SELECT SUM(amount_value) FROM OPENBILL_HOLDS WHERE hold_key = NEW.hold_key INTO v_unlock_amount;
     v_lock_amount = v_lock_amount + v_unlock_amount;
-    RAISE NOTICE 'v_lock_amount: %, v_account.locked_value: %, -NEW.amount_value: %', v_lock_amount, v_account.locked_value, -NEW.amount_value;
     IF v_lock_amount < -NEW.amount_value OR v_account.locked_value < -NEW.amount_value THEN
       RAISE EXCEPTION 'It is impossible to unblock the amount more than is on the account';
     END IF;
@@ -35,6 +34,6 @@ END
 
 $process_transaction$ LANGUAGE plpgsql SECURITY DEFINER;
 
-DROP TRIGGER IF EXISTS OPENBILL_LOCKS_insert ON OPENBILL_LOCKS;
-CREATE TRIGGER OPENBILL_LOCKS_insert
-  BEFORE INSERT ON OPENBILL_LOCKS FOR EACH ROW EXECUTE PROCEDURE OPENBILL_LOCKS_insert();
+DROP TRIGGER IF EXISTS OPENBILL_HOLDS_insert ON OPENBILL_HOLDS;
+CREATE TRIGGER OPENBILL_HOLDS_insert
+  BEFORE INSERT ON OPENBILL_HOLDS FOR EACH ROW EXECUTE PROCEDURE OPENBILL_HOLDS_insert();
