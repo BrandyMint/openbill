@@ -1,5 +1,7 @@
 CREATE OR REPLACE FUNCTION openbill_transaction_update() RETURNS TRIGGER  AS $process_transaction$
 BEGIN
+  PERFORM * FROM OPENBILL_ACCOUNTS WHERE id = OLD.to_account_id OR id = NEW.to_account_id FOR UPDATE;
+  PERFORM * FROM OPENBILL_INVOICES  WHERE id = NEW.invoice_id FOR UPDATE;
 
   UPDATE OPENBILL_ACCOUNTS SET amount_value = amount_value - OLD.amount_value, transactions_count = transactions_count - 1 WHERE id = OLD.to_account_id;
   UPDATE OPENBILL_ACCOUNTS SET amount_value = amount_value + NEW.amount_value, transactions_count = transactions_count + 1 WHERE id = NEW.to_account_id;

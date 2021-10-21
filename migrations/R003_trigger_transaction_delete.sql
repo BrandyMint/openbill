@@ -1,6 +1,8 @@
 CREATE OR REPLACE FUNCTION openbill_transaction_delete() RETURNS TRIGGER  AS $process_transaction$
 BEGIN
   -- установить last_transaction_id, counts и _at
+  PERFORM * FROM OPENBILL_ACCOUNTS WHERE id = OLD.to_account_id OR id = NEW.to_account_id FOR UPDATE;
+  PERFORM * FROM OPENBILL_INVOICES  WHERE id = OLD.invoice_id FOR UPDATE;
   UPDATE OPENBILL_ACCOUNTS SET amount_value = amount_value - OLD.amount_value, transactions_count = transactions_count - 1 WHERE id = OLD.to_account_id;
   UPDATE OPENBILL_ACCOUNTS SET amount_value = amount_value + OLD.amount_value, transactions_count = transactions_count - 1 WHERE id = OLD.from_account_id;
 

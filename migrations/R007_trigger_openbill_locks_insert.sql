@@ -4,8 +4,8 @@ DECLARE
  v_hold_amount numeric(36,18);
  v_release_funds_amount numeric(36,18);
 BEGIN
+  SELECT * FROM OPENBILL_ACCOUNTS WHERE id = NEW.account_id FOR UPDATE INTO v_account;
   NEW.username := current_user;
-  SELECT * FROM OPENBILL_ACCOUNTS WHERE id = NEW.account_id INTO v_account;
   -- У всех счетов и транзакции должна быть одинаковая валюта
 
   IF v_account.amount_currency <> NEW.amount_currency THEN
