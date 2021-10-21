@@ -26,7 +26,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
     - name: createdb
-      run: ./tests/create.sh
+      run: ./run_all_tests.sh
     - name: Make tests
       run: PGUSER=postgres PGDATABASE=openbill_test ruby ./parallel_tests.rb -s ./tests/benchmark_test_scenario0.sh -a 12832d8d-43f5-499b-82a1-000000000001 -u 12832d8d-43f5-499b-82a1-000000000002
     - name: result
