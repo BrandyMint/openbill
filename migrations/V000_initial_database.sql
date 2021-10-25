@@ -65,6 +65,9 @@ CREATE TABLE OPENBILL_TRANSACTIONS (
   foreign key (from_account_id) REFERENCES OPENBILL_ACCOUNTS (id) ON DELETE RESTRICT ON UPDATE RESTRICT,
   foreign key (to_account_id) REFERENCES OPENBILL_ACCOUNTS (id)
 );
+COMMENT ON TABLE OPENBILL_ACCOUNTS IS 'the operation of transferring funds between accounts. Has a unique identifier, identifiers of incoming and outgoing accounts, transaction amount, description.';
+
+
 
 CREATE UNIQUE INDEX index_transactions_on_key ON OPENBILL_TRANSACTIONS USING btree (key);
 CREATE INDEX index_transactions_on_meta ON OPENBILL_TRANSACTIONS USING gin (meta);
