@@ -8,6 +8,11 @@ CREATE                TABLE OPENBILL_CATEGORIES (
   foreign key (parent_id) REFERENCES OPENBILL_CATEGORIES (id) ON DELETE RESTRICT
 );
 
+COMMENT ON TABLE OPENBILL_CATEGORIES IS 'Account category. A convenient way to group accounts, for example: user accounts and system accounts, and also restrict transactions.';
+COMMENT ON COLUMN OPENBILL_CATEGORIES.id IS 'Account category id';
+COMMENT ON COLUMN OPENBILL_CATEGORIES.name IS 'Account category name';
+COMMENT ON COLUMN OPENBILL_CATEGORIES.parent_id IS 'Account category parent id';
+
 CREATE UNIQUE INDEX index_openbill_categories_name ON OPENBILL_CATEGORIES USING btree (parent_id, name);
 
 INSERT INTO OPENBILL_CATEGORIES  (name, id) values ('System', '12832d8d-43f5-499b-82a1-3466cadcd809');
@@ -26,6 +31,18 @@ CREATE                TABLE OPENBILL_ACCOUNTS (
   updated_at          timestamp without time zone default current_timestamp,
   foreign key (category_id) REFERENCES OPENBILL_CATEGORIES (id) ON DELETE RESTRICT
 );
+COMMENT ON TABLE OPENBILL_ACCOUNTS IS 'Account. Has a unique uuid identifier. Has information about the state of the account (balance), currency';
+COMMENT ON COLUMN OPENBILL_ACCOUNTS.id IS 'Account unique id';
+COMMENT ON COLUMN OPENBILL_ACCOUNTS.category_id IS 'Account category id, references on table OPENBILL_CATEGORIES. Use for grouping accounts';
+COMMENT ON COLUMN OPENBILL_ACCOUNTS.amount_value IS 'Account balance';
+COMMENT ON COLUMN OPENBILL_ACCOUNTS.amount_currency IS 'Account currency';
+COMMENT ON COLUMN OPENBILL_ACCOUNTS.details IS 'Account description';
+COMMENT ON COLUMN OPENBILL_ACCOUNTS.transactions_count IS 'Number of transactions per account';
+COMMENT ON COLUMN OPENBILL_ACCOUNTS.meta IS 'Account description in json format';
+COMMENT ON COLUMN OPENBILL_ACCOUNTS.created_at IS 'Date time of account creation';
+COMMENT ON COLUMN OPENBILL_ACCOUNTS.updated_at IS 'Date time of account modificaton';
+
+
 
 CREATE UNIQUE INDEX index_accounts_on_id ON OPENBILL_ACCOUNTS USING btree (id);
 CREATE UNIQUE INDEX index_accounts_on_key ON OPENBILL_ACCOUNTS USING btree (key) WHERE key is not null;
