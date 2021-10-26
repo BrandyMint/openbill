@@ -65,8 +65,16 @@ CREATE TABLE OPENBILL_TRANSACTIONS (
   foreign key (from_account_id) REFERENCES OPENBILL_ACCOUNTS (id) ON DELETE RESTRICT ON UPDATE RESTRICT,
   foreign key (to_account_id) REFERENCES OPENBILL_ACCOUNTS (id)
 );
-COMMENT ON TABLE OPENBILL_ACCOUNTS IS 'The operation of transferring funds between accounts. Has a unique identifier, identifiers of incoming and outgoing accounts, transaction amount, description.';
-
+COMMENT ON TABLE OPENBILL_TRANSACTIONS IS 'The operation of transferring funds between accounts. Has a unique identifier, identifiers of incoming and outgoing accounts, transaction amount, description.';
+COMMENT ON COLUMN OPENBILL_TRANSACTIONS.id IS 'Transaction unique id';
+COMMENT ON COLUMN OPENBILL_TRANSACTIONS.created_at IS 'Date time of transaction creation';
+COMMENT ON COLUMN OPENBILL_TRANSACTIONS.updated_at IS 'Date time of transaction modificaton';
+COMMENT ON COLUMN OPENBILL_TRANSACTIONS.from_account_id IS 'Account from which the funds are transferred';
+COMMENT ON COLUMN OPENBILL_TRANSACTIONS.to_account_id IS 'Account to which funds are transferred';
+COMMENT ON COLUMN OPENBILL_TRANSACTIONS.amount_value IS 'Transfer amount';
+COMMENT ON COLUMN OPENBILL_TRANSACTIONS.amount_currency IS 'Transfer currency';
+COMMENT ON COLUMN OPENBILL_TRANSACTIONS.details IS 'Transaction description';
+COMMENT ON COLUMN OPENBILL_TRANSACTIONS.meta IS 'Transaction description in json format';
 
 
 CREATE UNIQUE INDEX index_transactions_on_key ON OPENBILL_TRANSACTIONS USING btree (key);
