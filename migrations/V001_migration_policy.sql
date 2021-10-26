@@ -12,6 +12,10 @@ CREATE                TABLE OPENBILL_POLICIES (
   foreign key (to_account_id) REFERENCES OPENBILL_ACCOUNTS (id)
 );
 
+COMMENT ON TABLE OPENBILL_POLICIES IS 'Funds transfer policies. Using this table, you can restrict the movement of funds between accounts. For example, allow write-offs from user accounts only to system ones.';
+COMMENT ON COLUMN OPENBILL_POLICIES.id IS 'Policy unique id';
+COMMENT ON COLUMN OPENBILL_POLICIES.name IS 'Policy name';
+
 CREATE UNIQUE INDEX index_openbill_policies_name ON OPENBILL_POLICIES USING btree (name);
 
 INSERT INTO OPENBILL_POLICIES (name) VALUES ('Allow any transactions');
