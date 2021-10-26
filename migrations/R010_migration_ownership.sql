@@ -16,5 +16,6 @@ END
 
 $process_transaction$ LANGUAGE plpgsql;
 
+DROP TRIGGER IF EXISTS constraint_transaction_ownership ON OPENBILL_TRANSACTIONS;
 CREATE TRIGGER constraint_transaction_ownership
   AFTER INSERT ON OPENBILL_TRANSACTIONS FOR EACH ROW EXECUTE PROCEDURE constraint_transaction_ownership();
