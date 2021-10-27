@@ -17,7 +17,7 @@ BEGIN
 
   -- Нельзя разблокировать больше чем есть на счете
   IF NEW.amount_value < 0 THEN
-    SELECT amount_value FROM OPENBILL_HOLDS WHERE key = NEW.hold_key INTO v_hold_amount;
+    SELECT amount_value FROM OPENBILL_HOLDS WHERE remote_idempotency_key = NEW.hold_key INTO v_hold_amount;
     SELECT SUM(amount_value) FROM OPENBILL_HOLDS WHERE hold_key = NEW.hold_key INTO v_release_funds_amount;
     v_hold_amount = v_hold_amount + v_release_funds_amount;
     IF v_hold_amount < -NEW.amount_value OR v_account.hold_value < -NEW.amount_value THEN
