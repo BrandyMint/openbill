@@ -4,7 +4,6 @@ DECLARE
  v_hold_amount numeric(36,18);
  v_release_funds_amount numeric(36,18);
 BEGIN
-  NEW.username := current_user;
   SELECT * FROM OPENBILL_ACCOUNTS WHERE id = NEW.account_id INTO v_account;
   -- У всех счетов и транзакции должна быть одинаковая валюта
 

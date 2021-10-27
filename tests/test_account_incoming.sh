@@ -2,11 +2,9 @@
 
 . ./tests/init.sh && \
 
-echo "insert into OPENBILL_ACCOUNTS  (id, category_id, key) values ($ACCOUNT1_UUID, $CATEGORY_UUID, 'gid://owner1')" | ./tests/sql.sh && \
-echo "insert into OPENBILL_ACCOUNTS  (id, category_id, key) values ($ACCOUNT2_UUID, $CATEGORY_UUID, 'gid://owner2')" | ./tests/sql.sh && \
-echo "insert into OPENBILL_ACCOUNTS  (id, category_id, key) values ($ACCOUNT3_UUID, $CATEGORY_UUID, 'gid://owner3')" | ./tests/sql.sh && \
-
-./tests/assert_result_include.sh "insert into OPENBILL_INVOICES  (id, number, destination_account_id, title, amount_value) values ($INVOICE_UUID, 'first', $ACCOUNT1_UUID, 'test', 10000)" 'INSERT 0 1' && \
+echo "insert into OPENBILL_ACCOUNTS  (id, category_id) values ($ACCOUNT1_UUID, $CATEGORY_UUID)" | ./tests/sql.sh && \
+echo "insert into OPENBILL_ACCOUNTS  (id, category_id) values ($ACCOUNT2_UUID, $CATEGORY_UUID)" | ./tests/sql.sh && \
+echo "insert into OPENBILL_ACCOUNTS  (id, category_id) values ($ACCOUNT3_UUID, $CATEGORY_UUID)" | ./tests/sql.sh && \
 
 ./tests/assert_result_include.sh "insert into OPENBILL_TRANSACTIONS (invoice_id, amount_value, amount_currency, from_account_id, to_account_id, key, details) values ($INVOICE_UUID, 100, 'USD', $ACCOUNT2_UUID, $ACCOUNT1_UUID, 'gid://order3', 'test')" 'INSERT 0 1' && \
 
