@@ -17,4 +17,17 @@ CREATE TABLE OPENBILL_HOLDS (
 CREATE UNIQUE INDEX index_holds_on_key ON OPENBILL_HOLDS USING btree (remote_idempotency_key);
 CREATE INDEX index_holds_on_meta ON OPENBILL_HOLDS USING gin (meta);
 
+COMMENT ON TABLE OPENBILL_HOLDS IS 'Оperation of blocking funds on the account. Has a unique identifier, account identifier, blocking amount, description.';
+COMMENT ON COLUMN OPENBILL_HOLDS.id IS 'Hold unique id';
+COMMENT ON COLUMN OPENBILL_HOLDS.billing_date IS 'Foreign date time of hold creation';
+COMMENT ON COLUMN OPENBILL_HOLDS.created_at IS 'Date time of hold creation';
+COMMENT ON COLUMN OPENBILL_HOLDS.from_account_id IS 'Account which the funds are holded';
+COMMENT ON COLUMN OPENBILL_HOLDS.amount_value IS 'Hold amount';
+COMMENT ON COLUMN OPENBILL_HOLDS.amount_currency IS 'Hold currency';
+COMMENT ON COLUMN OPENBILL_HOLDS.details IS 'Hold description';
+COMMENT ON COLUMN OPENBILL_HOLDS.meta IS 'Hold description in json format';
+COMMENT ON COLUMN OPENBILL_HOLDS.remote_idempotency_key IS 'Human readable unique hold key';
+
+
 ALTER TABLE openbill_accounts ADD COLUMN hold_value numeric(36,18) not null DEFAULT 0;
+COMMENT ON COLUMN openbill_accounts.hold_value IS 'Hold amount';

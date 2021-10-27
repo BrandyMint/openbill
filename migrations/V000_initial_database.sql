@@ -59,6 +59,7 @@ CREATE TABLE OPENBILL_TRANSACTIONS (
 );
 COMMENT ON TABLE OPENBILL_TRANSACTIONS IS 'The operation of transferring funds between accounts. Has a unique identifier, identifiers of incoming and outgoing accounts, transaction amount, description.';
 COMMENT ON COLUMN OPENBILL_TRANSACTIONS.id IS 'Transaction unique id';
+COMMENT ON COLUMN OPENBILL_TRANSACTIONS.billing_date IS 'Foreign date time of transaction creation';
 COMMENT ON COLUMN OPENBILL_TRANSACTIONS.created_at IS 'Date time of transaction creation';
 COMMENT ON COLUMN OPENBILL_TRANSACTIONS.from_account_id IS 'Account from which the funds are transferred';
 COMMENT ON COLUMN OPENBILL_TRANSACTIONS.to_account_id IS 'Account to which funds are transferred';
