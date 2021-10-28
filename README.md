@@ -209,6 +209,15 @@ openbill=# select amount_currency, sum(amount_value) from openbill_accounts grou
 > ./run_all_tests.sh
 ```
 
+Параллельные тесты (запускаем после `./run_all_tests.sh`)
+
+```
+PGUSER=postgres PGDATABASE=openbill_test time ruby ./parallel_tests.rb \
+  -s ./tests/benchmark_test_scenario0.sh \
+  -a 12832d8d-43f5-499b-82a1-000000000001 \
+  -u 12832d8d-43f5-499b-82a1-000000000002
+```
+
 ## Список тестов:
 
 ### Разрешающие
