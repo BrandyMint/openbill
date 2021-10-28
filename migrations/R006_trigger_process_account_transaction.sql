@@ -2,7 +2,7 @@ CREATE OR REPLACE FUNCTION process_account_transaction() RETURNS TRIGGER AS $pro
 DECLARE
  v_account_from OPENBILL_ACCOUNTS%rowtype;
 BEGIN
-  SELECT * FROM OPENBILL_ACCOUNTS WHERE id = NEW.from_account_id FOR UPDATE INTO v_account_from;
+  SELECT * FROM OPENBILL_ACCOUNTS WHERE id = NEW.from_account_id INTO v_account_from;
   -- У всех счетов и транзакции должна быть одинаковая валюта
 
   IF NEW.amount_currency <> v_account_from.amount_currency THEN
