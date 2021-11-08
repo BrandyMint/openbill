@@ -7,7 +7,7 @@ value="$2"
 #echo $query >> .query.tmp
 echo -e "\tassert_result '$query'"
 echo -e "\t\tMust be: '$value' "
-RES=`echo "$query" | psql --no-align -t 2>&1`
+RES=`echo "$query" | psql -q --no-align -t 2>&1`
 
 if [ $? = 0 ]; then
   if [ "$RES" = "$value" ]; then

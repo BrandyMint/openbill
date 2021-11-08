@@ -1,7 +1,3 @@
-ALTER TABLE OPENBILL_POLICIES ADD allow_reverse boolean not null default true;
-ALTER TABLE OPENBILL_TRANSACTIONS ADD reverse_transaction_id uuid;
-ALTER TABLE OPENBILL_TRANSACTIONS ADD CONSTRAINT reverse_transaction_foreign_key FOREIGN KEY (reverse_transaction_id) REFERENCES OPENBILL_TRANSACTIONS (id);
-
 CREATE OR REPLACE FUNCTION restrict_transaction() RETURNS TRIGGER AS $restrict_transaction$
 DECLARE
   _from_category_id uuid;
@@ -9,7 +5,7 @@ DECLARE
 BEGIN
   SELECT category_id FROM OPENBILL_ACCOUNTS where id = NEW.from_account_id INTO _from_category_id;
   SELECT category_id FROM OPENBILL_ACCOUNTS where id = NEW.to_account_id INTO _to_category_id;
-  PERFORM * FROM OPENBILL_POLICIES WHERE 
+  PERFORM * FROM OPENBILL_POLICIES WHERE
     (
       NEW.reverse_transaction_id is null AND
       (from_category_id is null OR from_category_id = _from_category_id) AND
@@ -34,4 +30,3 @@ BEGIN
 END
 
 $restrict_transaction$ LANGUAGE plpgsql;
-
