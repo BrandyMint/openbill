@@ -30,3 +30,7 @@ BEGIN
 END
 
 $restrict_transaction$ LANGUAGE plpgsql;
+
+DROP TRIGGER IF EXISTS restrict_transaction ON OPENBILL_TRANSACTIONS;
+CREATE TRIGGER restrict_transaction
+  AFTER INSERT ON OPENBILL_TRANSACTIONS FOR EACH ROW EXECUTE PROCEDURE restrict_transaction();
