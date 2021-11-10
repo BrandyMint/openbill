@@ -1,10 +1,10 @@
 CREATE                TABLE OPENBILL_POLICIES (
-  id                  UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id                  bigserial PRIMARY KEY,
   name                character varying(256) not null,
-  from_category_id    uuid,
-  to_category_id      uuid,
-  from_account_id     uuid,
-  to_account_id       uuid,
+  from_category_id    bigint,
+  to_category_id      bigint,
+  from_account_id     bigint,
+  to_account_id       bigint,
 
   foreign key (from_category_id) REFERENCES OPENBILL_CATEGORIES (id),
   foreign key (to_category_id) REFERENCES OPENBILL_CATEGORIES (id),
