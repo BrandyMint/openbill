@@ -10,4 +10,4 @@
 ./tests/assert_value.sh 'select count(*) from OPENBILL_TRANSACTIONS ' '1' &&\
 # testing hold
 ./tests/assert_result_include.sh "update OPENBILL_ACCOUNTS set locked_at='01.01.2021 00:00:00' WHERE id = $ACCOUNT2_UUID" 'UPDATE 1' && \
-./tests/assert_result_include.sh "insert into OPENBILL_TRANSACTIONS (amount_value, amount_currency, from_account_id, to_account_id, remote_idempotency_key, details) values (100, 'USD', $ACCOUNT2_UUID, $ACCOUNT1_UUID, 'gid://order2', 'test')" "ERROR:  Account (from #12832d8d-43f5-499b-82a1-000000000001) is hold from 2021-01-01 00:00:00"
+./tests/assert_result_include.sh "insert into OPENBILL_TRANSACTIONS (amount_value, amount_currency, from_account_id, to_account_id, remote_idempotency_key, details) values (100, 'USD', $ACCOUNT2_UUID, $ACCOUNT1_UUID, 'gid://order2', 'test')" "ERROR:  Account (from #$ACCOUNT1_UUID) is hold from 2021-01-01 00:00:00"

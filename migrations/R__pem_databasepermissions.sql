@@ -5,3 +5,8 @@ GRANT SELECT, INSERT ON OPENBILL_TRANSACTIONS TO public;
 GRANT SELECT, INSERT, UPDATE, DELETE ON openbill_policies TO public;
 
 GRANT INSERT ON OPENBILL_HOLDS TO public;
+
+GRANT USAGE ON openbill_transactions_id_seq TO PUBLIC;
+GRANT USAGE ON openbill_accounts_id_seq TO PUBLIC;
+GRANT USAGE ON openbill_holds_id_seq TO PUBLIC;
+GRANT USAGE ON openbill_policies_id_seq TO PUBLIC;
