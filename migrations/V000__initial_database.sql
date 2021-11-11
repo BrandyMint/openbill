@@ -1,5 +1,3 @@
-CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
-
 CREATE                TABLE OPENBILL_CATEGORIES (
   id                  bigserial PRIMARY KEY,
   name                character varying(256) not null
