@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-TRANSACTION_UUID="'12832d8d-43f5-499b-82a1-700000000002'"
+TRANSACTION_UUID="200"
 
 . ./tests/init.sh && \
 . ./tests/2accounts.sh && \

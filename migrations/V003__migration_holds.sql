@@ -1,8 +1,8 @@
 CREATE TABLE OPENBILL_HOLDS (
-  id              UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  id              bigserial PRIMARY KEY,
   date            date default current_date not null,
   created_at      timestamp without time zone default current_timestamp,
-  account_id uuid not null,
+  account_id bigint not null,
   amount_value    numeric(36,18) not null,
   amount_currency character varying(8) not null default 'USD',
   remote_idempotency_key             character varying(256) UNIQUE not null,
