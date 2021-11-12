@@ -1,11 +1,9 @@
 CREATE OR REPLACE FUNCTION process_account_transaction() RETURNS TRIGGER AS $process_transaction$
 DECLARE
- v_account_from OPENBILL_ACCOUNTS%rowtype;
+ v_locked_at timestamp;
 BEGIN
-  SELECT * FROM OPENBILL_ACCOUNTS WHERE id = NEW.from_account_id FOR UPDATE INTO v_account_from;
   -- У всех счетов и транзакции должна быть одинаковая валюта
-
-  IF NEW.amount_currency <> v_account_from.amount_currency THEN
+  IF NOT EXISTS (SELECT * FROM OPENBILL_ACCOUNTS WHERE id = NEW.from_account_id AND amount_currency = NEW.amount_currency) THEN
     RAISE EXCEPTION 'Account (from #%) has wrong currency', NEW.from_account_id;
   END IF;
 
@@ -13,12 +11,18 @@ BEGIN
     RAISE EXCEPTION 'Account (to #%) has wrong currency', NEW.to_account_id;
   END IF;
 
-  IF v_account_from.locked_at IS NOT NULL THEN
-    RAISE EXCEPTION 'Account (from #%) is hold from %', NEW.to_account_id, v_account_from.locked_at;
+  IF EXISTS (SELECT * FROM OPENBILL_ACCOUNTS WHERE id = NEW.from_account_id AND locked_at IS NOT NULL) THEN
+    SELECT locked_at FROM OPENBILL_ACCOUNTS WHERE id = NEW.from_account_id INTO v_locked_at;
+    RAISE EXCEPTION 'Account (from #%) is hold from %', NEW.to_account_id, v_locked_at;
   END IF;
 
-  UPDATE OPENBILL_ACCOUNTS SET amount_value = amount_value - NEW.amount_value, transactions_count = transactions_count + 1 WHERE id = NEW.from_account_id;
-  UPDATE OPENBILL_ACCOUNTS SET amount_value = amount_value + NEW.amount_value, transactions_count = transactions_count + 1 WHERE id = NEW.to_account_id;
+  IF NEW.to_account_id > NEW.from_account_id THEN
+    UPDATE OPENBILL_ACCOUNTS SET amount_value = amount_value - NEW.amount_value, transactions_count = transactions_count + 1 WHERE id = NEW.from_account_id;
+    UPDATE OPENBILL_ACCOUNTS SET amount_value = amount_value + NEW.amount_value, transactions_count = transactions_count + 1 WHERE id = NEW.to_account_id;
+  ELSE
+    UPDATE OPENBILL_ACCOUNTS SET amount_value = amount_value + NEW.amount_value, transactions_count = transactions_count + 1 WHERE id = NEW.to_account_id;
+    UPDATE OPENBILL_ACCOUNTS SET amount_value = amount_value - NEW.amount_value, transactions_count = transactions_count + 1 WHERE id = NEW.from_account_id;
+  END IF;
 
   return NEW;
 END
